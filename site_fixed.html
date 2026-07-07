@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>البيت الملكي | Maison Royal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141414;
+    --walnut:#1A1A1A;
+    --walnut-dark:#0D0D0D;
+    --oak:#8B7355;
+    --brass:#C9A227;
+    --brass-light:#E4C558;
+    --parchment:#F3F0E9;
+    --cream:#FCFBF8;
+    --line: rgba(20,20,20,0.14);
+    --shadow: 0 10px 30px rgba(0,0,0,0.18);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Cairo', sans-serif;
+    background:var(--parchment);
+    color:var(--ink);
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Amiri', serif;
+  }
+  a{text-decoration:none; color:inherit;}
+  ul{list-style:none;}
+  img{max-width:100%; display:block;}
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ---------- wood grain texture ---------- */
+  .grain{
+    position:relative;
+  }
+  .grain::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0px, rgba(0,0,0,0.03) 2px, transparent 3px, transparent 40px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0px, transparent 1px, transparent 90px);
+    pointer-events:none;
+    opacity:0.6;
+  }
+
+  /* ---------- dovetail divider (signature element) ---------- */
+  .joint-divider{
+    height:22px;
+    width:100%;
+    background:var(--cream);
+  }
+  .joint-divider svg{width:100%; height:100%; display:block;}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:var(--walnut);
+    border-bottom:1px solid rgba(212,168,90,0.25);
+  }
+  .header-inner{
+    position:relative;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px;
+    max-width:1180px; margin:0 auto;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{
+    width:44px; height:44px; border-radius:6px;
+    background:linear-gradient(135deg, var(--brass-light), var(--brass));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Amiri', serif; font-weight:700; font-size:16px; color:var(--walnut-dark); letter-spacing:-1px;
+    flex-shrink:0;
+  }
+  .brand-text .name{
+    color:var(--cream); font-family:'Amiri', serif; font-size:21px; font-weight:700; line-height:1.1;
+  }
+  .brand-text .place{
+    color:var(--brass-light); font-size:12px; letter-spacing:0.5px; margin-top:2px;
+  }
+  nav.main-nav{display:flex; gap:26px;}
+  nav.main-nav a{
+    color:var(--cream); font-size:15px; font-weight:500; opacity:0.85; transition:opacity .2s, color .2s;
+  }
+  nav.main-nav a:hover{opacity:1; color:var(--brass-light);}
+  .wa-btn{
+    display:flex; align-items:center; gap:8px;
+    background:var(--brass); color:var(--walnut-dark);
+    padding:10px 18px; border-radius:8px; font-weight:700; font-size:14px;
+    box-shadow:0 4px 14px rgba(184,134,60,0.35);
+    transition:transform .2s, background .2s;
+    white-space:nowrap;
+  }
+  .wa-btn:hover{background:var(--brass-light); transform:translateY(-2px);}
+  .burger{display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:6px;}
+  .burger span{width:24px; height:2px; background:var(--cream); display:block;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    background:var(--walnut-dark);
+    color:var(--cream);
+    padding:90px 0 70px;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background:radial-gradient(circle at 80% 20%, rgba(184,134,60,0.20), transparent 55%);
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:50px; align-items:center;
+    position:relative; z-index:2;
+  }
+  .hero-eyebrow{
+    display:inline-block; color:var(--brass-light); font-size:13px; letter-spacing:1.5px;
+    border:1px solid rgba(212,168,90,0.4); padding:6px 14px; border-radius:30px; margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:52px; line-height:1.25; font-weight:700; color:var(--cream); margin-bottom:22px;
+  }
+  .hero h1 em{
+    font-style:normal; color:var(--brass-light);
+  }
+  .hero p.lead{
+    font-size:17px; color:rgba(251,246,236,0.8); max-width:480px; margin-bottom:32px;
+  }
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--brass); color:var(--walnut-dark); padding:14px 28px; border-radius:8px;
+    font-weight:700; font-size:15px; box-shadow:0 8px 22px rgba(184,134,60,0.3);
+    transition:transform .2s;
+  }
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{
+    border:1px solid rgba(251,246,236,0.35); color:var(--cream); padding:14px 28px; border-radius:8px;
+    font-weight:600; font-size:15px; transition:background .2s;
+  }
+  .btn-ghost:hover{background:rgba(251,246,236,0.08);}
+  .hero-image{
+    position:relative; border-radius:12px; overflow:hidden; box-shadow:var(--shadow);
+    aspect-ratio:4/5;
+  }
+  .hero-image img{width:100%; height:100%; object-fit:cover;}
+  .hero-image::after{
+    content:"";
+    position:absolute; inset:0; border:1px solid rgba(212,168,90,0.5); border-radius:12px; pointer-events:none;
+  }
+
+  /* ---------- about ---------- */
+  .about{padding:80px 0; background:var(--cream);}
+  .about-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:center;}
+  .section-label{
+    color:var(--oak); font-size:13px; font-weight:700; letter-spacing:1.5px; margin-bottom:12px; display:block;
+  }
+  .about h2{font-size:34px; color:var(--walnut); margin-bottom:18px;}
+  .about p{color:#4a3a2c; font-size:16px; max-width:520px;}
+  .about-stats{display:flex; gap:30px; margin-top:36px; flex-wrap:wrap;}
+  .stat b{display:block; font-family:'Amiri', serif; font-size:32px; color:var(--brass);}
+  .stat span{font-size:13px; color:#6b5a48;}
+  .about-photo{
+    border-radius:12px; overflow:hidden; box-shadow:var(--shadow); aspect-ratio:4/3;
+  }
+  .about-photo img{width:100%; height:100%; object-fit:cover;}
+
+  /* ---------- catalog ---------- */
+  .catalog{padding:80px 0 90px; background:var(--parchment);}
+  .catalog-head{
+    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px; margin-bottom:38px;
+  }
+  .catalog-head h2{font-size:34px; color:var(--walnut);}
+  .filters{display:flex; gap:10px; flex-wrap:wrap;}
+  .filter-btn{
+    background:transparent; border:1px solid var(--line); color:var(--walnut);
+    padding:9px 18px; border-radius:30px; font-family:'Cairo'; font-size:14px; font-weight:600; cursor:pointer;
+    transition:all .2s;
+  }
+  .filter-btn:hover{border-color:var(--brass);}
+  .filter-btn.active{background:var(--walnut); color:var(--cream); border-color:var(--walnut);}
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:26px;
+  }
+  .card{
+    background:var(--cream); border-radius:10px; overflow:hidden; box-shadow:0 6px 18px rgba(74,46,31,0.08);
+    transition:transform .25s, box-shadow .25s;
+    display:flex; flex-direction:column;
+  }
+  .card:hover{transform:translateY(-4px); box-shadow:0 14px 30px rgba(74,46,31,0.16);}
+  .card-img{aspect-ratio:1/1; overflow:hidden; position:relative;}
+  .card-img img{width:100%; height:100%; object-fit:cover; transition:transform .4s;}
+  .card:hover .card-img img{transform:scale(1.06);}
+  .card-tag{
+    position:absolute; top:12px; right:12px; background:rgba(36,23,16,0.75); color:var(--brass-light);
+    font-size:11px; padding:4px 10px; border-radius:20px; font-weight:600;
+  }
+  .card-body{padding:18px 18px 20px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .card-body h3{font-size:18px; color:var(--ink); font-weight:700; font-family:'Cairo';}
+  .card-body .desc{font-size:13.5px; color:#6b5a48; flex:1;}
+  .card-body .price{font-family:'Amiri', serif; font-size:22px; color:var(--brass); font-weight:700;}
+  .order-btn{
+    margin-top:8px; display:flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--walnut); color:var(--cream); padding:11px; border-radius:8px; font-weight:700; font-size:14px;
+    transition:background .2s;
+  }
+  .order-btn:hover{background:var(--walnut-dark);}
+  .order-btn svg{width:16px; height:16px; fill:#25D366;}
+
+  /* ---------- map ---------- */
+  .map-section{padding:80px 0; background:var(--cream);}
+  .map-grid{display:grid; grid-template-columns:0.8fr 1.2fr; gap:40px; align-items:stretch;}
+  .map-info h2{font-size:30px; color:var(--walnut); margin-bottom:14px;}
+  .map-info p{color:#4a3a2c; margin-bottom:22px;}
+  .map-info .addr-line{
+    display:flex; gap:10px; align-items:flex-start; margin-bottom:14px; font-size:14.5px; color:#4a3a2c;
+  }
+  .map-info .addr-line b{color:var(--walnut); display:block; font-size:14px;}
+  .map-frame{border-radius:12px; overflow:hidden; box-shadow:var(--shadow); min-height:320px;}
+  .map-frame iframe{width:100%; height:100%; min-height:320px; border:0;}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--walnut-dark); color:var(--parchment); padding:60px 0 26px;}
+  .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; margin-bottom:40px;}
+  footer h4{font-family:'Amiri', serif; color:var(--brass-light); font-size:19px; margin-bottom:16px;}
+  footer p{color:rgba(241,228,206,0.75); font-size:14px; max-width:320px;}
+  footer .hours li{display:flex; justify-content:space-between; font-size:14px; color:rgba(241,228,206,0.85); margin-bottom:8px; max-width:220px;}
+  footer .contact li{font-size:14px; color:rgba(241,228,206,0.85); margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+  .social{display:flex; gap:12px; margin-top:16px;}
+  .social a{
+    width:38px; height:38px; border-radius:50%; border:1px solid rgba(212,168,90,0.4);
+    display:flex; align-items:center; justify-content:center; color:var(--brass-light); font-size:14px;
+    transition:background .2s;
+  }
+  .social a:hover{background:rgba(212,168,90,0.15);}
+  .footer-bottom{
+    border-top:1px solid rgba(212,168,90,0.15); padding-top:20px; text-align:center;
+    font-size:13px; color:rgba(241,228,206,0.5);
+  }
+
+  /* ---------- floating whatsapp ---------- */
+  .float-wa{
+    position:fixed; bottom:22px; left:22px; z-index:200;
+    width:58px; height:58px; border-radius:50%; background:#25D366;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 24px rgba(37,211,102,0.45);
+    transition:transform .2s;
+  }
+  .float-wa:hover{transform:scale(1.08);}
+  .float-wa svg{width:28px; height:28px; fill:#fff;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .hero-grid, .about-grid, .map-grid{grid-template-columns:1fr;}
+    .hero-image{order:-1; aspect-ratio:16/10;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:700px){
+    nav.main-nav{
+      display:none;
+      position:absolute; top:100%; right:0; left:0;
+      flex-direction:column; gap:0;
+      background:var(--walnut);
+      border-bottom:1px solid rgba(212,168,90,0.25);
+      box-shadow:0 12px 24px rgba(0,0,0,0.25);
+    }
+    nav.main-nav.nav-open{display:flex;}
+    nav.main-nav a{
+      padding:14px 24px;
+      border-top:1px solid rgba(255,255,255,0.06);
+    }
+    .burger{display:flex;}
+    .hero h1{font-size:36px;}
+    .hero{padding:60px 0 50px;}
+    .about, .catalog, .map-section{padding:56px 0;}
+    .footer-grid{grid-template-columns:1fr;}
+    .catalog-head{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark" style="font-size:20px;">♛</div>
+      <div class="brand-text">
+        <div class="name">البيت الملكي</div>
+        <div class="place">Maison Royal · أثاث فاخر</div>
+      </div>
+    </div>
+    <nav class="main-nav" id="mainNav">
+      <a href="#about">من نحن</a>
+      <a href="#catalog">المنتجات</a>
+      <a href="#payment">الدفع</a>
+      <a href="#location">تواصل معنا</a>
+    </nav>
+    <button class="burger" id="burgerBtn" aria-label="فتح القائمة" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="wa-btn" id="headerWa" target="_blank" rel="noopener">
+      تواصل واتساب
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero grain">
+  <div class="container hero-grid">
+    <div>
+      <span class="hero-eyebrow">Maison Royal</span>
+      <h1>أثاث بلمسة <em>ملكية</em></h1>
+      <p class="lead">تشكيلة فاخرة من الأثاث تليق بذوقكم، بتصميم راقي وجودة تدوم. كتالوجنا الكامل بين يديكم، وطلبكم يوصلكم لباب الدار.</p>
+      <div class="hero-ctas">
+        <a href="#catalog" class="btn-primary">شوف الكتالوج</a>
+        <a href="#location" class="btn-ghost">تواصل معنا</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=900&q=80" alt="صالون خشبي فاخر">
+    </div>
+  </div>
+</section>
+<div class="joint-divider">
+  <svg viewBox="0 0 400 22" preserveAspectRatio="none"><polygon points="0,0 20,0 30,11 20,22 0,22 10,11" fill="#33200F"/><polygon points="40,0 60,0 70,11 60,22 40,22 50,11" fill="#33200F"/><polygon points="80,0 100,0 110,11 100,22 80,22 90,11" fill="#33200F"/><polygon points="120,0 140,0 150,11 140,22 120,22 130,11" fill="#33200F"/><polygon points="160,0 180,0 190,11 180,22 160,22 170,11" fill="#33200F"/><polygon points="200,0 220,0 230,11 220,22 200,22 210,11" fill="#33200F"/><polygon points="240,0 260,0 270,11 260,22 240,22 250,11" fill="#33200F"/><polygon points="280,0 300,0 310,11 300,22 280,22 290,11" fill="#33200F"/><polygon points="320,0 340,0 350,11 340,22 320,22 330,11" fill="#33200F"/><polygon points="360,0 380,0 390,11 380,22 360,22 370,11" fill="#33200F"/></svg>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container about-grid">
+    <div class="about-photo">
+      <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?w=800&q=80" alt="ورشة نجارة">
+    </div>
+    <div>
+      <span class="section-label">من نحن</span>
+      <h2>البيت الملكي، فخامة في كل قطعة</h2>
+      <p>نختارلكم قطع أثاث تجمع بين الفخامة والراحة، بلمسة تصميم تميزكم. نتابع طلبكم من البداية للتوصيل، وكتالوجنا منظم باش تلقاو كل شي بسهولة بلا بحث.</p>
+      <div class="about-stats">
+        <div class="stat"><b>15K</b><span>متابع</span></div>
+        <div class="stat"><b>+500</b><span>زبون راضي</span></div>
+        <div class="stat"><b>100%</b><span>جودة مضمونة</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="joint-divider" style="background:var(--parchment);">
+  <svg viewBox="0 0 400 22" preserveAspectRatio="none"><polygon points="0,0 20,0 30,11 20,22 0,22 10,11" fill="#FBF6EC"/><polygon points="40,0 60,0 70,11 60,22 40,22 50,11" fill="#FBF6EC"/><polygon points="80,0 100,0 110,11 100,22 80,22 90,11" fill="#FBF6EC"/><polygon points="120,0 140,0 150,11 140,22 120,22 130,11" fill="#FBF6EC"/><polygon points="160,0 180,0 190,11 180,22 160,22 170,11" fill="#FBF6EC"/><polygon points="200,0 220,0 230,11 220,22 200,22 210,11" fill="#FBF6EC"/><polygon points="240,0 260,0 270,11 260,22 240,22 250,11" fill="#FBF6EC"/><polygon points="280,0 300,0 310,11 300,22 280,22 290,11" fill="#FBF6EC"/><polygon points="320,0 340,0 350,11 340,22 320,22 330,11" fill="#FBF6EC"/><polygon points="360,0 380,0 390,11 380,22 360,22 370,11" fill="#FBF6EC"/></svg>
+</div>
+
+<!-- CATALOG -->
+<section class="catalog" id="catalog">
+  <div class="container">
+    <div class="catalog-head">
+      <h2>كتالوج المنتجات</h2>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div class="grid" id="productGrid"></div>
+  </div>
+</section>
+
+<div class="joint-divider" style="background:var(--cream);">
+  <svg viewBox="0 0 400 22" preserveAspectRatio="none"><polygon points="0,0 20,0 30,11 20,22 0,22 10,11" fill="#F3F0E9"/><polygon points="40,0 60,0 70,11 60,22 40,22 50,11" fill="#F3F0E9"/><polygon points="80,0 100,0 110,11 100,22 80,22 90,11" fill="#F3F0E9"/><polygon points="120,0 140,0 150,11 140,22 120,22 130,11" fill="#F3F0E9"/><polygon points="160,0 180,0 190,11 180,22 160,22 170,11" fill="#F3F0E9"/><polygon points="200,0 220,0 230,11 220,22 200,22 210,11" fill="#F3F0E9"/><polygon points="240,0 260,0 270,11 260,22 240,22 250,11" fill="#F3F0E9"/><polygon points="280,0 300,0 310,11 300,22 280,22 290,11" fill="#F3F0E9"/><polygon points="320,0 340,0 350,11 340,22 320,22 330,11" fill="#F3F0E9"/><polygon points="360,0 380,0 390,11 380,22 360,22 370,11" fill="#F3F0E9"/></svg>
+</div>
+
+<!-- PAYMENT -->
+<section class="catalog" id="payment" style="padding:70px 0;">
+  <div class="container">
+    <span class="section-label">طرق الدفع</span>
+    <h2 style="font-size:30px; color:var(--walnut); margin-bottom:30px;">ادفعوا بالطريقة الي تناسبكم</h2>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit, minmax(260px,1fr));">
+      <div class="card" style="padding:26px;">
+        <h3 style="margin-bottom:10px;">💬 عند الاستلام / واتساب</h3>
+        <p class="desc" style="margin-bottom:0;">تأكدو الطلب عبر واتساب، وتخلصو نقدا عند توصيل القطعة لباب الدار.</p>
+      </div>
+      <div class="card" style="padding:26px;">
+        <h3 style="margin-bottom:10px;">🏤 تحويل عبر CCP</h3>
+        <p class="desc" style="margin-bottom:12px;">حولوا المبلغ لحساب CCP التالي، وبعتوا لينا صورة وصل التحويل عبر واتساب لتأكيد الطلب:</p>
+        <div style="background:var(--parchment); border-radius:8px; padding:12px 14px; font-weight:700; color:var(--walnut); font-size:15px; letter-spacing:0.5px;">
+          رقم CCP: 0000000000 مفتاح 00
+        </div>
+        <p class="desc" style="margin-top:10px; margin-bottom:0;">الاسم: Maison Royal</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="joint-divider" style="background:var(--parchment);">
+  <svg viewBox="0 0 400 22" preserveAspectRatio="none"><polygon points="0,0 20,0 30,11 20,22 0,22 10,11" fill="#FCFBF8"/><polygon points="40,0 60,0 70,11 60,22 40,22 50,11" fill="#FCFBF8"/><polygon points="80,0 100,0 110,11 100,22 80,22 90,11" fill="#FCFBF8"/><polygon points="120,0 140,0 150,11 140,22 120,22 130,11" fill="#FCFBF8"/><polygon points="160,0 180,0 190,11 180,22 160,22 170,11" fill="#FCFBF8"/><polygon points="200,0 220,0 230,11 220,22 200,22 210,11" fill="#FCFBF8"/><polygon points="240,0 260,0 270,11 260,22 240,22 250,11" fill="#FCFBF8"/><polygon points="280,0 300,0 310,11 300,22 280,22 290,11" fill="#FCFBF8"/><polygon points="320,0 340,0 350,11 340,22 320,22 330,11" fill="#FCFBF8"/><polygon points="360,0 380,0 390,11 380,22 360,22 370,11" fill="#FCFBF8"/></svg>
+</div>
+
+<!-- MAP -->
+<section class="map-section" id="location">
+  <div class="container map-grid">
+    <div class="map-info">
+      <span class="section-label">التوصيل والتواصل</span>
+      <h2>نوصلكم أينما كنتم</h2>
+      <p>اطلبو من الموقع مباشرة عبر واتساب، ونحن نتكفلو بالتوصيل لباب الدار عبر كل ولايات الجزائر.</p>
+      <div class="addr-line">
+        <span>🚚</span>
+        <span><b>التوصيل</b>لكل ولايات الوطن</span>
+      </div>
+      <div class="addr-line">
+        <span>🕒</span>
+        <span><b>نستقبل الطلبات</b>كل يوم من 9 صباحاً إلى 10 مساءً</span>
+      </div>
+      <div class="addr-line">
+        <span>🎵</span>
+        <span><b>تابعونا</b>@maisonroyalkolea على تيك توك</span>
+      </div>
+    </div>
+    <div class="map-frame" style="display:flex; align-items:center; justify-content:center; background:var(--walnut-dark);">
+      <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" alt="توصيل الأثاث" style="width:100%; height:100%; object-fit:cover; opacity:0.85;">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <h4>البيت الملكي</h4>
+      <p>تشكيلة فاخرة من الأثاث، بلمسة ملكية تليق بذوقكم، من صفحتنا مباشرة لدار الزبون.</p>
+      <div class="social">
+        <a href="#" aria-label="تيك توك">tt</a>
+        <a href="#" aria-label="إنستغرام">ig</a>
+      </div>
+    </div>
+    <div>
+      <h4>أوقات العمل</h4>
+      <ul class="hours">
+        <li><span>كل يوم</span><span>9:00 - 22:00</span></li>
+      </ul>
+    </div>
+    <div>
+      <h4>تواصل معنا</h4>
+      <ul class="contact">
+        <li>📞 0555 00 00 00</li>
+        <li>🎵 @maisonroyalkolea</li>
+        <li>✉️ contact@maisonroyal.dz</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    © 2026 البيت الملكي. جميع الحقوق محفوظة.
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a class="float-wa" id="floatWa" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.486 2 2 6.486 2 12.004c0 1.874.5 3.63 1.376 5.15L2 22l4.998-1.352a9.96 9.96 0 004.997 1.36h.005c5.518 0 10.005-4.486 10.005-10.004C22.005 6.486 17.518 2 12.004 2zm0 18.176a8.16 8.16 0 01-4.163-1.14l-.298-.177-3.15.853.842-3.073-.194-.315a8.15 8.15 0 01-1.24-4.32c0-4.508 3.667-8.176 8.178-8.176 4.508 0 8.176 3.668 8.176 8.176 0 4.508-3.668 8.172-8.151 8.172z"/></svg>
+</a>
+
+<script>
+  // ============ EDIT YOUR PRODUCTS HERE ============
+  const WHATSAPP_NUMBER = "213555000000"; // بدّل هذا برقمك (بدون + وبدون أصفار زايدة)
+
+  const products = [
+    {
+      name: "طقم صالون كلاسيكي خشب الجوز",
+      price: "185,000 دج",
+      desc: "خشب جوز طبيعي، تنجيد قماش فاخر، 3+2+1 مقعد",
+      category: "صالون",
+      img: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=600&q=80"
+    },
+    {
+      name: "سرير غرفة نوم مزخرف",
+      price: "95,000 دج",
+      desc: "خشب زان، مقاس 160x200، مع كومودينو",
+      category: "غرفة نوم",
+      img: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&q=80"
+    },
+    {
+      name: "طاولة مطبخ خشبية مع 4 كراسي",
+      price: "48,000 دج",
+      desc: "خشب صلب، طلاء مقاوم للماء، مقاس 120x80",
+      category: "مطبخ",
+      img: "https://images.unsplash.com/photo-1617806118233-18e1de247200?w=600&q=80"
+    },
+    {
+      name: "مكتب عمل مع مكتبة",
+      price: "62,000 دج",
+      desc: "خشب MDF مغلف، رفوف تخزين، مقاس 140x60",
+      category: "مكتب",
+      img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=600&q=80"
+    },
+    {
+      name: "خزانة ملابس 3 أبواب",
+      price: "72,000 دج",
+      desc: "خشب زان، مرايا، أدراج داخلية",
+      category: "غرفة نوم",
+      img: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600&q=80"
+    },
+    {
+      name: "طاولة سفرة عائلية",
+      price: "58,000 دج",
+      desc: "خشب طبيعي، تتحمل 8 أشخاص، تصميم تقليدي",
+      category: "مطبخ",
+      img: "https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=600&q=80"
+    },
+    {
+      name: "كنبة ركنية جلد",
+      price: "210,000 دج",
+      desc: "جلد طبيعي، هيكل خشبي متين، تصميم عصري",
+      category: "صالون",
+      img: "https://images.unsplash.com/photo-1550254478-ead40cc54513?w=600&q=80"
+    },
+    {
+      name: "مكتبة حائط خشبية",
+      price: "35,000 دج",
+      desc: "خشب صلب، 5 رفوف، تركيب سهل",
+      category: "مكتب",
+      img: "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=600&q=80"
+    }
+  ];
+  // ===================================================
+
+  function waLink(product){
+    const msg = product
+      ? `السلام عليكم، حاب نسولكم على "${product.name}" (${product.price}). واش راهي متوفرة؟`
+      : `السلام عليكم، حاب نسولكم على منتوجاتكم.`;
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  }
+
+  document.getElementById('headerWa').href = waLink();
+  document.getElementById('floatWa').href = waLink();
+
+  // ---- mobile burger menu ----
+  const burgerBtn = document.getElementById('burgerBtn');
+  const mainNav = document.getElementById('mainNav');
+  burgerBtn.addEventListener('click', () => {
+    const isOpen = mainNav.classList.toggle('nav-open');
+    burgerBtn.setAttribute('aria-expanded', isOpen);
+  });
+  mainNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mainNav.classList.remove('nav-open');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  const categories = ["الكل", ...new Set(products.map(p => p.category))];
+  const filtersEl = document.getElementById('filters');
+  const gridEl = document.getElementById('productGrid');
+
+  function renderFilters(active){
+    filtersEl.innerHTML = categories.map(c =>
+      `<button class="filter-btn ${c===active?'active':''}" data-cat="${c}">${c}</button>`
+    ).join('');
+    filtersEl.querySelectorAll('.filter-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        renderFilters(btn.dataset.cat);
+        renderProducts(btn.dataset.cat);
+      });
+    });
+  }
+
+  function renderProducts(cat){
+    const list = cat === "الكل" ? products : products.filter(p => p.category === cat);
+    gridEl.innerHTML = list.map(p => `
+      <div class="card">
+        <div class="card-img">
+          <img src="${p.img}" alt="${p.name}" loading="lazy">
+          <span class="card-tag">${p.category}</span>
+        </div>
+        <div class="card-body">
+          <h3>${p.name}</h3>
+          <p class="desc">${p.desc}</p>
+          <div class="price">${p.price}</div>
+          <a class="order-btn" href="${waLink(p)}" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2C6.486 2 2 6.486 2 12.004c0 1.874.5 3.63 1.376 5.15L2 22l4.998-1.352a9.96 9.96 0 004.997 1.36h.005c5.518 0 10.005-4.486 10.005-10.004C22.005 6.486 17.518 2 12.004 2zm0 18.176a8.16 8.16 0 01-4.163-1.14l-.298-.177-3.15.853.842-3.073-.194-.315a8.15 8.15 0 01-1.24-4.32c0-4.508 3.667-8.176 8.178-8.176 4.508 0 8.176 3.668 8.176 8.176 0 4.508-3.668 8.172-8.151 8.172z"/></svg>
+            اطلب عبر واتساب
+          </a>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  renderFilters("الكل");
+  renderProducts("الكل");
+</script>
+
+</body>
+</html>
